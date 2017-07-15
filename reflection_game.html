@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Game</title>
+</head>
+<body>
+<div id="rectangle">
+<div id="left">
+</div>
+<div id="right">
+</div>
+<div id="circle">
+</div>
+</div>
+<style type="text/css">
+body{
+	width: 100vw;
+	height: 100vh;
+	background: linear-gradient(black,blue, white); 
+	display: flex;
+	justify-content: space-around;
+}
+#left{ 
+	position: fixed;
+	height: 130px;
+	width: 20px;
+    background-color: red;
+}
+#right{ 
+	position: fixed;
+	height: 130px;
+	width: 20px;
+    background-color: blue;
+}
+#rectangle{
+	margin-top: 50px;
+	width: 1300px;
+	height: 800px;
+	background-color: black;
+	position: fixed;
+	border-style: double;
+	border-color: red	;
+
+}
+#circle{
+	width: 100px;
+	height: 100px;
+	border-radius: 50px;
+	position: fixed;
+	 background: 
+    repeating-linear-gradient(190deg, rgba(255, 0, 0, 0.5) 40px, rgba(255, 153, 0, 0.5) 80px, rgba(255, 255, 0, 0.5) 120px, rgba(0, 255, 0, 0.5) 160px, rgba(0, 0, 255, 0.5) 200px, rgba(75, 0, 130, 0.5) 240px, rgba(238, 130, 238, 0.5) 280px, rgba(255, 0, 0, 0.5) 300px), 
+    repeating-linear-gradient(-190deg, rgba(255, 0, 0, 0.5) 30px, rgba(255, 153, 0, 0.5) 60px, rgba(255, 255, 0, 0.5) 90px, rgba(0, 255, 0, 0.5) 120px, rgba(0, 0, 255, 0.5) 150px, rgba(75, 0, 130, 0.5) 180px, rgba(238, 130, 238, 0.5) 210px, rgba(255, 0, 0, 0.5) 230px), 
+    repeating-linear-gradient(23deg, red 50px, orange 100px, yellow 150px, green 200px, blue 250px, indigo 300px, violet 350px, red 370px);
+
+}
+</style>
+<script type="text/javascript">
+var ball=document.getElementById('circle');
+var box=document.getElementById('rectangle');
+var red=document.getElementById('left');
+var blue=document.getElementById('right');
+var number;
+red.style.top=box.offsetTop+'px';
+red.style.left=box.offsetLeft+10+'px';
+blue.style.top=box.offsetTop+box.offsetHeight-130+'px';
+blue.style.left=box.offsetLeft+box.offsetWidth-30+'px';
+ball.style.top=box.offsetTop+box.offsetHeight/2+'px';
+ball.style.left=box.offsetLeft+box.offsetWidth/2+'px';
+var delLeft;
+
+function controller(){
+	var time=20;
+var newHeight=Math.random()*document.body.clientHeight;
+var newWidth=Math.random()*document.body.clientWidth;
+var oldTop=parseFloat(ball.style.top.slice(0,-2));
+var origTop=oldTop;
+var oldLeft=parseFloat(ball.style.left.slice(0,-2));
+var origLeft=oldLeft;
+var division=100;
+var delTop=(newHeight- oldTop)/division;
+ delLeft=(newWidth- oldLeft)/division;
+if(number!=null)
+{
+	clearInterval(number);
+}
+number=setInterval(function(){
+if(oldTop<box.offsetTop||oldTop+100>box.offsetTop+box.offsetHeight)
+{
+	    delTop=-1*delTop;
+}
+mod1=oldLeft-(red.offsetWidth+red.offsetLeft+10);
+mod2=(blue.offsetLeft)-oldLeft-100;
+var ballHeight=ball.offsetTop+ball.offsetHeight/2;
+if( (mod1<0.1&&red.offsetTop<=ballHeight&&(ballHeight<=red.offsetTop+red.offsetHeight))
+ ||(mod2<0.1&&blue.offsetTop<=ballHeight&&(ballHeight<=blue.offsetTop+blue.offsetHeight))){
+  delLeft=-1*delLeft;
+}
+else if(oldLeft<box.offsetLeft||oldLeft+100>box.offsetLeft+box.offsetWidth)
+{
+	clearInterval(number);
+	if(oldLeft<box.offsetLeft)
+	alert("Blue wins");
+    else if(oldLeft+100>box.offsetLeft+box.offsetWidth)
+    	alert("Red Wins");
+    return;
+}
+
+var currentTop = oldTop+delTop;
+var currentLeft= oldLeft+delLeft;
+ball.style.top=currentTop+'px';
+ball.style.left=currentLeft+'px';
+oldTop=currentTop;
+oldLeft=currentLeft;
+},20);
+}
+var speed=15;
+function move(){
+	console.log("hello");
+	if((event.key=='ArrowDown')/*&&(delLeft>0)*/&&(blue.offsetTop+blue.offsetHeight<box.offsetTop+box.offsetHeight)){
+		blue.style.top=(parseFloat(blue.style.top.slice(0,-2))+speed)+'px';
+	}
+	if((event.key=='ArrowUp')/*&&(delLeft>0)*/&&(blue.offsetTop>box.offsetTop)){
+		blue.style.top=(parseFloat(blue.style.top.slice(0,-2))-speed)+'px';
+	}
+	if((event.key=='w')/*&&(delLeft<0)*/&&(red.offsetTop>box.offsetTop)){
+		red.style.top=(parseFloat(red.style.top.slice(0,-2))-speed)+'px';
+	}
+	if((event.key=='s')/*&&(delLeft<0)*/&&(red.offsetTop+red.offsetHeight)<(box.offsetTop+box.offsetHeight)){
+		red.style.top=(parseFloat(red.style.top.slice(0,-2))+speed)+'px';
+	}
+	if(event.key=='p')
+	{
+       time=1000;
+	}
+	if(event.key=='c')
+	{
+		time=20;
+	}
+}
+ball.style.top=box.offsetTop+box.offsetHeight/2+'px';
+ball.style.left=box.offsetLeft+box.offsetHeight/2+'px';
+console.log("hello");
+ball.addEventListener('mouseover',controller);
+document.addEventListener('keydown',move);
+</script>
+<script type="text/javascript">
+</script>
+</body>
+</html>
